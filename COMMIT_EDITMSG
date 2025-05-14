@@ -1,0 +1,7 @@
+Prepare application for deployment on the Fly.io hosting platform
+
+Updates the app to use PostgreSQL, configures gunicorn, and adds Docker ignore.
+
+Replit-Commit-Author: Agent
+Replit-Commit-Session-Id: 07a3f7f7-bded-4183-b14e-b8ebca45af07
+Replit-Commit-Screenshot-Url: https://storage.googleapis.com/screenshot-production-us-central1/e1c09c02-df50-4c4c-a8a6-332d430de212/687ad788-fafd-4c7a-bd39-7cb562b7b628.jpg

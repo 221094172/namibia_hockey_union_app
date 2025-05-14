@@ -1,0 +1,118 @@
+/* Custom styles for Namibia Hockey Union application */
+
+/* Avatar placeholder */
+.avatar-placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Card hover effect */
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Custom background for hockey-related elements */
+.bg-hockey {
+    background-color: #1a5d1a;
+    color: white;
+}
+
+/* Border for team cards */
+.team-card {
+    border-left: 4px solid var(--bs-primary);
+}
+
+/* Responsive font sizes */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    .display-4 {
+        font-size: 2.2rem;
+    }
+}
+
+/* Make tables more mobile-friendly */
+@media (max-width: 576px) {
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+}
+
+/* Better spacing for form groups on mobile */
+@media (max-width: 576px) {
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
+}
+
+/* Custom style for badge lists */
+.badge-list .badge {
+    margin-right: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Navbar active link style */
+.navbar-dark .navbar-nav .nav-link.active {
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Style the footer */
+footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom button styles */
+.btn-hockey {
+    background-color: #1a5d1a;
+    border-color: #1a5d1a;
+    color: white;
+}
+
+.btn-hockey:hover {
+    background-color: #134313;
+    border-color: #134313;
+    color: white;
+}
+
+/* Player card styles */
+.player-card .card-header {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+/* Event status badges */
+.event-status-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+/* Custom shadow for important cards */
+.card-important {
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+/* Notification badge */
+.notification-badge {
+    position: relative;
+}
+
+.notification-badge .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.65rem;
+}

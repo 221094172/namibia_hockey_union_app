@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Register Team for Event - Namibia Hockey Union{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-calendar-plus me-2"></i>Register Team for Event</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.team_id.label(class="form-label") }}
+                        {% if form.team_id.errors %}
+                            {{ form.team_id(class="form-select is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.team_id.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.team_id(class="form-select") }}
+                        {% endif %}
+                        <small class="form-text text-muted">Select a team to register for the event.</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.event_id.label(class="form-label") }}
+                        {% if form.event_id.errors %}
+                            {{ form.event_id(class="form-select is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.event_id.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.event_id(class="form-select") }}
+                        {% endif %}
+                        <small class="form-text text-muted">Select the event you want to register for.</small>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-muted text-center">
+                <small>By registering for an event, you agree to abide by the rules and regulations of the event and the Namibia Hockey Union.</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

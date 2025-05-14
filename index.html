@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Namibia Hockey Union{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 text-center mb-5">
+        <h1 class="display-4">Welcome to Namibia Hockey Union</h1>
+        <p class="lead">Your gateway to hockey in Namibia</p>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6 mb-4 mb-md-0">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">
+                    <i class="fas fa-users me-2"></i>Team Registration
+                </h2>
+                <p class="card-text">
+                    Register your hockey team with the Namibia Hockey Union to participate in 
+                    official tournaments and leagues. Manage your roster, track player statistics,
+                    and stay updated with the latest news and events.
+                </p>
+                {% if current_user.is_authenticated %}
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('register_team') }}" class="btn btn-primary">Register Your Team</a>
+                </div>
+                {% else %}
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('login') }}" class="btn btn-primary">Login to Register</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">
+                    <i class="fas fa-calendar-alt me-2"></i>Upcoming Events
+                </h2>
+                {% if upcoming_events %}
+                <div class="list-group">
+                    {% for event in upcoming_events %}
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ event.name }}</h5>
+                            <small>{{ event.start_date.strftime('%d %b %Y') }}</small>
+                        </div>
+                        <p class="mb-1">{{ event.location }}</p>
+                        {% if event.registration_deadline %}
+                        <small>Registration deadline: {{ event.registration_deadline.strftime('%d %b %Y') }}</small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-center">No upcoming events at the moment.</p>
+                {% endif %}
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('event_list') }}" class="btn btn-outline-primary">View All Events</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">
+                    <i class="fas fa-bell me-2"></i>Latest Announcements
+                </h2>
+                
+                {% if recent_notifications %}
+                <div class="list-group">
+                    {% for notification in recent_notifications %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ notification.title }}</h5>
+                            <small>{{ notification.created_at.strftime('%d %b %Y') }}</small>
+                        </div>
+                        <p class="mb-1">{{ notification.content }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-center">No announcements at the moment.</p>
+                {% endif %}
+                
+                {% if current_user.is_authenticated %}
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('notifications') }}" class="btn btn-outline-primary">View All Announcements</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-user-plus fa-3x mb-3 text-primary"></i>
+                <h3 class="card-title">Player Registration</h3>
+                <p class="card-text">Register players for your teams and manage their profiles.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('register_player') }}" class="btn btn-sm btn-primary">Register Players</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-trophy fa-3x mb-3 text-primary"></i>
+                <h3 class="card-title">Event Entries</h3>
+                <p class="card-text">Register your teams for upcoming tournaments and leagues.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('register_team_for_event') }}" class="btn btn-sm btn-primary">Enter Events</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-bullhorn fa-3x mb-3 text-primary"></i>
+                <h3 class="card-title">Information Sharing</h3>
+                <p class="card-text">Stay updated with the latest hockey news and announcements.</p>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('notifications') }}" class="btn btn-sm btn-primary">View Updates</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

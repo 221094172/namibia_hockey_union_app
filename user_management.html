@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}User Management - Namibia Hockey Union{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="mb-4">
+            <i class="fas fa-users-cog me-2"></i>User Management
+            <span class="badge bg-danger">Admin</span>
+        </h1>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-user-friends me-2"></i>All Users</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Teams</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <th scope="row">{{ user.id }}</th>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.is_admin %}
+                            <span class="badge bg-danger">Admin</span>
+                            {% else %}
+                            <span class="badge bg-secondary">User</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.teams|length }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{{ url_for('admin_user_details', user_id=user.id) }}" class="btn btn-outline-primary">View</a>
+                                <a href="{{ url_for('admin_user_details', user_id=user.id) }}" class="btn btn-outline-warning">Edit</a>
+                                {% if not user.is_admin %}
+                                <button type="button" class="btn btn-outline-danger">Delete</button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>User Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Total Users</h6>
+                                <h2 class="mb-0">{{ users|length }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Admin Users</h6>
+                                <h2 class="mb-0">{{ admin_count }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Team Managers</h6>
+                                <h2 class="mb-0">{{ manager_count }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">New This Month</h6>
+                                <h2 class="mb-0">{{ new_users_count }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fas fa-user-shield me-2"></i>Admin Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="{{ url_for('admin_register') }}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><i class="fas fa-user-plus me-2"></i>Register New Admin</h5>
+                        </div>
+                        <p class="mb-1">Create a new administrator account with full system privileges.</p>
+                    </a>
+                    <a href="{{ url_for('register_event') }}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><i class="fas fa-calendar-plus me-2"></i>Create New Event</h5>
+                        </div>
+                        <p class="mb-1">Schedule a new hockey event or tournament.</p>
+                    </a>
+                    <a href="{{ url_for('notifications') }}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><i class="fas fa-bell me-2"></i>Send Global Notification</h5>
+                        </div>
+                        <p class="mb-1">Send an announcement to all users in the system.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

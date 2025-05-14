@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Register Event - Namibia Hockey Union{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-calendar-plus me-2"></i>Create New Event</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.name.label(class="form-label") }}
+                        {% if form.name.errors %}
+                            {{ form.name(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class="form-control is-invalid", rows=4) }}
+                            <div class="invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class="form-control", rows=4) }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.location.label(class="form-label") }}
+                        {% if form.location.errors %}
+                            {{ form.location(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.location.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.location(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            {{ form.start_date.label(class="form-label") }}
+                            {% if form.start_date.errors %}
+                                {{ form.start_date(class="form-control is-invalid", type="datetime-local") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.start_date.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.start_date(class="form-control", type="datetime-local") }}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.end_date.label(class="form-label") }}
+                            {% if form.end_date.errors %}
+                                {{ form.end_date(class="form-control is-invalid", type="datetime-local") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.end_date.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.end_date(class="form-control", type="datetime-local") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form.registration_deadline.label(class="form-label") }}
+                        {% if form.registration_deadline.errors %}
+                            {{ form.registration_deadline(class="form-control is-invalid", type="datetime-local") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.registration_deadline.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.registration_deadline(class="form-control", type="datetime-local") }}
+                        {% endif %}
+                        <small class="form-text text-muted">The deadline for teams to register for this event.</small>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

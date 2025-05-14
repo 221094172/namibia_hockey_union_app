@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Team - {{ team.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Team</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.name.label(class="form-label") }}
+                        {% if form.name.errors %}
+                            {{ form.name(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name(class="form-control") }}
+                        {% endif %}
+                        <small class="form-text text-muted">Enter the official name of your hockey team.</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.division.label(class="form-label") }}
+                        {% if form.division.errors %}
+                            {{ form.division(class="form-select is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.division.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.division(class="form-select") }}
+                        {% endif %}
+                        <small class="form-text text-muted">Select the division in which your team competes.</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.founded_year.label(class="form-label") }}
+                        {% if form.founded_year.errors %}
+                            {{ form.founded_year(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.founded_year.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.founded_year(class="form-control") }}
+                        {% endif %}
+                        <small class="form-text text-muted">The year your team was established (optional).</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        {{ form.logo.label(class="form-label") }}
+                        {% if team.logo_url %}
+                        <div class="mb-3">
+                            <p class="text-muted mb-2">Current logo:</p>
+                            <img src="{{ team.logo_url }}" alt="{{ team.name }} Logo" class="img-thumbnail" style="max-height: 100px;">
+                        </div>
+                        {% endif %}
+                        
+                        {% if form.logo.errors %}
+                            {{ form.logo(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.logo.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.logo(class="form-control") }}
+                        {% endif %}
+                        <small class="form-text text-muted">Upload a new team logo (optional, JPG/PNG/GIF). Leave empty to keep the current logo.</small>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary", value="Update Team") }}
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a href="{{ url_for('team_details', team_id=team.id) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Team
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

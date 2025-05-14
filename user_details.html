@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}User Details - Namibia Hockey Union{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="mb-4">
+            <i class="fas fa-user me-2"></i>User Details
+            <span class="badge bg-danger">Admin</span>
+        </h1>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="{{ url_for('admin_users') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Back to User Management
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-id-card me-2"></i>User Profile</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="mb-3">
+                        <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=random&size=128" 
+                             class="rounded-circle img-thumbnail" 
+                             alt="{{ user.username }}">
+                    </div>
+                    <h4>{{ user.username }}</h4>
+                    <p class="text-muted">
+                        {% if user.is_admin %}
+                        <span class="badge bg-danger">Administrator</span>
+                        {% else %}
+                        <span class="badge bg-primary">Team Manager</span>
+                        {% endif %}
+                    </p>
+                </div>
+                
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row">User ID</th>
+                            <td>{{ user.id }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email</th>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Account Created</th>
+                            <td>{{ user.created_at.strftime('%d %b %Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Teams Managed</th>
+                            <td>{{ teams|length }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <div class="d-grid gap-2">
+                    {% if not user.is_admin %}
+                    <button type="button" class="btn btn-warning">
+                        <i class="fas fa-user-shield me-1"></i> Grant Admin Rights
+                    </button>
+                    <button type="button" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-1"></i> Delete User
+                    </button>
+                    {% else %}
+                    <button type="button" class="btn btn-secondary" disabled>
+                        <i class="fas fa-user-shield me-1"></i> Admin User Cannot Be Modified
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-users me-2"></i>Teams Managed</h5>
+            </div>
+            <div class="card-body p-0">
+                {% if teams %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Team Name</th>
+                                <th scope="col">Division</th>
+                                <th scope="col">Players</th>
+                                <th scope="col">Created</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for team in teams %}
+                            <tr>
+                                <th scope="row">{{ team.id }}</th>
+                                <td>{{ team.name }}</td>
+                                <td>{{ team.division }}</td>
+                                <td>{{ team.players|length }}</td>
+                                <td>{{ team.created_at.strftime('%d %b %Y') }}</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ url_for('team_details', team_id=team.id) }}" class="btn btn-outline-primary">View</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="p-4 text-center">
+                    <p class="mb-0">This user has not registered any teams.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-history me-2"></i>Activity Log</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">User account created</h6>
+                            <small>{{ user.created_at.strftime('%d %b %Y') }}</small>
+                        </div>
+                        <p class="mb-1">New user account was created with username: {{ user.username }}</p>
+                    </div>
+                    {% for team in teams %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Created team: {{ team.name }}</h6>
+                            <small>{{ team.created_at.strftime('%d %b %Y') }}</small>
+                        </div>
+                        <p class="mb-1">User registered a team in the {{ team.division }} division.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

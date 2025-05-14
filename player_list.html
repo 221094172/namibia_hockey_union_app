@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Players - Namibia Hockey Union{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="mb-0"><i class="fas fa-users me-2"></i>Players</h1>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="{{ url_for('register_player') }}" class="btn btn-primary">
+            <i class="fas fa-plus-circle me-1"></i> Register New Player
+        </a>
+    </div>
+</div>
+
+{% if players %}
+<div class="card mb-4">
+    <div class="card-header bg-dark text-white">
+        <div class="row align-items-center">
+            <div class="col">
+                <h5 class="mb-0">Player Roster</h5>
+            </div>
+            <div class="col-auto">
+                <span class="badge bg-primary">{{ players|length }} players</span>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Number</th>
+                        <th>Team(s)</th>
+                        <th>Age</th>
+                        <th>Contact</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in players %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {% if player.photo_url %}
+                                <div class="me-2">
+                                    <img src="{{ player.photo_url }}" alt="{{ player.full_name }}" width="32" height="32" class="rounded-circle">
+                                </div>
+                                {% else %}
+                                <div class="me-2">
+                                    <span class="avatar-placeholder rounded-circle bg-secondary text-white d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                        {{ player.first_name[0] }}{{ player.last_name[0] }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                                {{ player.full_name }}
+                            </div>
+                        </td>
+                        <td>{{ player.position }}</td>
+                        <td>{{ player.jersey_number if player.jersey_number else '-' }}</td>
+                        <td>
+                            {% for team in player.teams %}
+                            <span class="badge bg-secondary me-1">{{ team.name }}</span>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% set age = ((now.date() - player.date_of_birth).days / 365.25)|int %}
+                            {{ age }} years
+                        </td>
+                        <td>
+                            {% if player.email %}
+                            <a href="mailto:{{ player.email }}" class="me-2">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            {% endif %}
+                            {% if player.phone %}
+                            <a href="tel:{{ player.phone }}">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('edit_player', player_id=player.id) }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% if teams %}
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Players by Team</h5>
+    </div>
+    <div class="card-body">
+        <ul class="nav nav-tabs" id="teamTabs" role="tablist">
+            {% for team in teams %}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link {% if loop.first %}active{% endif %}" 
+                        id="team-{{ team.id }}-tab" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#team-{{ team.id }}" 
+                        type="button" 
+                        role="tab" 
+                        aria-controls="team-{{ team.id }}" 
+                        aria-selected="{% if loop.first %}true{% else %}false{% endif %}">
+                    {{ team.name }}
+                </button>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content p-3" id="teamTabsContent">
+            {% for team in teams %}
+            <div class="tab-pane fade {% if loop.first %}show active{% endif %}" 
+                 id="team-{{ team.id }}" 
+                 role="tabpanel" 
+                 aria-labelledby="team-{{ team.id }}-tab">
+                
+                {% if team.players %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Number</th>
+                                <th>Age</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player in team.players %}
+                            <tr>
+                                <td>{{ player.full_name }}</td>
+                                <td>{{ player.position }}</td>
+                                <td>{{ player.jersey_number if player.jersey_number else '-' }}</td>
+                                <td>
+                                    {% set age = ((now.date() - player.date_of_birth).days / 365.25)|int %}
+                                    {{ age }} years
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    No players registered for this team yet.
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% else %}
+<div class="alert alert-info text-center">
+    <i class="fas fa-info-circle me-2"></i>You haven't registered any players yet.
+    <div class="mt-3">
+        <a href="{{ url_for('register_player') }}" class="btn btn-primary">Register Your First Player</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
